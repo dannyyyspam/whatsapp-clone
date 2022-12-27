@@ -6,12 +6,16 @@
       >
         <img
           class="rounded-full ml-1 w-10"
-          src="https://random.imagecdn.app/100/100"
+          :src="userStore.picture || ''"
           alt=""
         />
         <div class="flex items-center justify-center">
           <AccountGroupIcon fillColor="#515151" class="mr-6" />
-          <DotsVerticalIcon fillColor="#515151" class="cursor-pointer" />
+          <DotsVerticalIcon
+            @click="logout"
+            fillColor="#515151"
+            class="cursor-pointer"
+          />
         </div>
       </div>
       <div id="Search" class="bg-white w-full px-2 border-b shadow-sm">
@@ -75,11 +79,22 @@ import FindFriendsView from "./FindFriendsView.vue";
 import AccountGroupIcon from "vue-material-design-icons/AccountGroup.vue";
 import DotsVerticalIcon from "vue-material-design-icons/DotsVertical.vue";
 import MagnifyIcon from "vue-material-design-icons/Magnify.vue";
-
 import { ref } from "vue";
+
+import { useUserStore } from "@/store/user-store";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const userStore = useUserStore();
 
 let open = ref(true);
 let showFindFriends = ref(true);
+
+const logout = () => {
+  let res = confirm("Are you sure you want to logout?");
+  if (res) userStore.logout();
+  router.push("/login");
+};
 </script>
 
 <style lang="scss" scoped></style>
