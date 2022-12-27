@@ -15,7 +15,7 @@
         <div class="flex items-center">
           <CheckAllIcon size="18" class="mr-1" />
           <div
-            class="text-[15px] text-gray-500 flex items-center justify-between"
+            class="text-[15px] w-full text-gray-500 flex items-center justify-between"
           >
             This is a message...
           </div>
