@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
-import { db } from "../firebase-init";
+import { db } from "@/firebase-init";
 import {
   setDoc,
   getDoc,
@@ -33,12 +33,14 @@ export const useUserStore = defineStore("user", {
   actions: {
     async getUserDetailsFromGoogle(data) {
       try {
-        let res = await axios.post("/api/google-login", {
+        let res = await axios.post("api/google-login", {
           token: data.credential,
         });
 
         let userExists = await this.checkIfUserExists(res.data.sub);
         if (!userExists) await this.saveUserDetails(res);
+
+        await this.getAllUsers();
 
         this.sub = res.data.sub;
         this.email = res.data.email;
@@ -93,7 +95,7 @@ export const useUserStore = defineStore("user", {
       });
     },
 
-    getAllChatsById() {
+    getAllChatsByUser() {
       const q = query(collection(db, "chat"));
 
       onSnapshot(q, (querySnapshot) => {
@@ -131,11 +133,11 @@ export const useUserStore = defineStore("user", {
                 }
               });
             }
+          });
 
-            this.chats = [];
-            chatArray.forEach((chat) => {
-              this.chats.push(chat);
-            });
+          this.chats = [];
+          chatArray.forEach((chat) => {
+            this.chats.push(chat);
           });
         });
       });
@@ -178,6 +180,17 @@ export const useUserStore = defineStore("user", {
       }
     },
 
+    async hasReadMessage(data) {
+      await updateDoc(
+        doc(db, `chat/${data.id}`),
+        {
+          [data.key1]: data.val1,
+          [data.key2]: data.val2,
+        },
+        { merge: true }
+      );
+    },
+
     logout() {
       this.sub = "";
       this.email = "";
@@ -185,8 +198,11 @@ export const useUserStore = defineStore("user", {
       this.firstName = "";
       this.lastName = "";
       this.allUsers = [];
+      this.chats = [];
       this.userDataForChat = [];
+      this.removeUsersFromFindFriends = [];
       this.showFindFriends = false;
+      this.currentChat = false;
     },
   },
   persist: true,

@@ -24,18 +24,19 @@
 </template>
 
 <script setup>
+import { computed, ref } from "vue";
 import { useUserStore } from "@/store/user-store";
 import { storeToRefs } from "pinia";
 const userStore = useUserStore();
-const { sub, userDataForChat } = storeToRefs(userStore);
-
+const { sub, userDataForChat, allUsers, removeUsersFromFindFriends } =
+  storeToRefs(userStore);
+let users = ref([]);
 const hideMe = (user) => {
   if (user.sub === sub.value) {
     return false;
   }
   return true;
 };
-
 const createNewChat = (user) => {
   userDataForChat.value = [];
   userDataForChat.value.push({
@@ -46,6 +47,14 @@ const createNewChat = (user) => {
     picture: user.picture,
   });
 };
+const usersComputed = computed(() => {
+  allUsers.value.forEach((user) => users.value.push(user));
+  removeUsersFromFindFriends.value.forEach((remove) => {
+    let index = users.value.findIndex((user) => user.sub === remove);
+    users.value.splice(index, 1);
+  });
+  return users.value;
+});
 </script>
 
 <style lang="scss" scoped></style>

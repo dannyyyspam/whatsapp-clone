@@ -18,6 +18,7 @@
           />
         </div>
       </div>
+
       <div id="Search" class="bg-white w-full px-2 border-b shadow-sm">
         <div
           class="px-1 m-2 bg-[#F0F0F0] flex items-center justify-center rounded-md"
@@ -25,9 +26,9 @@
           <MagnifyIcon fillColor="#515151" :size="18" class="ml-2" />
           <input
             @click="showFindFriends = !showFindFriends"
-            class="ml-5 appearance-none w-full bg-[#F0F0F0] py-1.5 px-1.5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-sm placeholder:text-gray-500"
-            type="text"
+            class="ml-5 apperance-none w-full bg-[#F0F0F0] py-1.5 px-2.5 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-sm placeholder:text-gray-500"
             autocomplete="off"
+            type="text"
             placeholder="Start a new chat"
           />
         </div>
@@ -35,10 +36,10 @@
     </div>
 
     <div v-if="showFindFriends">
-      <ChatsView class="mt-[100px]" />
+      <FindFriendsView class="pt-28" />
     </div>
     <div v-else>
-      <FindFriendsView class="pt-28" />
+      <ChatsView class="mt-[100px]" />
     </div>
 
     <div v-if="userDataForChat.length">
@@ -98,10 +99,13 @@ onMounted(async () => {
     console.log(error);
   }
 });
+
 const logout = () => {
-  let res = confirm("Are you sure you want to logout?");
-  if (res) userStore.logout();
-  router.push("/login");
+  let res = confirm("Are you sute you want to logout?");
+  if (res) {
+    userStore.logout();
+    router.push("/login");
+  }
 };
 </script>
 
