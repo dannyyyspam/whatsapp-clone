@@ -6,7 +6,11 @@
         @click="createNewChat(user)"
         class="flex w-full p-4 items-center cursor-pointer"
       >
-        <img class="rounded-full mr-4 w-12" :src="user.picture || ''" />
+        <img
+          class="rounded-full mr-4 w-12"
+          :src="user.picture || ''"
+          referrerpolicy="no-referrer"
+        />
 
         <div class="w-full">
           <div class="flex justify-between items-center">

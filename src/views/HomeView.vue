@@ -7,7 +7,7 @@
         <img
           class="rounded-full ml-1 w-10"
           :src="userStore.picture || ''"
-          alt=""
+          referrerpolicy="no-referrer"
         />
         <div class="flex items-center justify-center">
           <AccountGroupIcon fillColor="#515151" class="mr-6" />
